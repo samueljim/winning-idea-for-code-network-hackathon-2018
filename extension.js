@@ -1,226 +1,43 @@
-"use strict";
-const vscode = require('vscode');
-const minjs = require('uglify-js');
-const mincss = require('clean-css');
-const minhtml = require('html-minifier');
-const fs = require('fs');
-const path = require('path');
+// The module 'vscode' contains the VS Code extensibility API
+// Import the module and reference it with the alias vscode in your code below
+const vscode = require("vscode");
+const badcode = require("bad-code");
 
-const quotedStyles = ["best", "single", "double", "original"]
-	//register on activation
+// this method is called when your extension is activated
+// your extension is activated the very first time the command is executed
 function activate(context) {
-	let cleanSettings = function(opts) {
-		if (opts.js && opts.js.output && opts.js.output.quote_style) {
-			opts.js.output.quote_style = quotedStyles.indexOf(opts.js.output.quote_style);
-			if (opts.js.output.quote_style < 0) opts.js.output.quote_style = 0;
-		}
-		if (opts.js) {
-			delete opts.js.spidermonkey;
-			delete opts.js.outSourceMap;
-			delete opts.js.inSourceMap;
-			delete opts.js.sourceMapUrl;
-			delete opts.js.sourceMapInline;
-			delete opts.js.fromString;
-			delete opts.js.warnings;
-			delete opts.js.mangleProperties;
-			delete opts.js.nameCache;
-			delete opts.js.parse;
-			if (opts.js.output) {
-				delete opts.js.output.beatify;
-				delete opts.js.output.source_map;
-			}
-			if (opts.js.compress) {
-				delete opts.js.compress.warnings;
-			}
-		}
-		//drop these settings:
-		if (opts.css) {
-			delete opts.css.sourceMap;
-			delete opts.css.sourceMapInlineSources;
-			delete opts.css.benchmark;
-			delete opts.css.debug;
-		}
-		//switch settings for html:
-		if (opts.css && opts.html && opts.html.minifyCSS === true) opts.html.minifyCSS = opts.css;
-		if (opts.js && opts.html && opts.html.minifyJS === true) opts.html.minifyJS = opts.js;
-		return opts;
-	};
-	let settings = cleanSettings(vscode.workspace.getConfiguration()
-		.get("minify"));
-	let sendFileOut = function(fileName, data, stats) {
-		fs.writeFile(fileName, data, "utf8", () => {
-			let status = "Minified: " + stats.files + " files";
-			if (stats.length) status = "Minified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
-				"% of original" + (stats.errors ? " but with errors." : (stats.warnings ? " but with warnings." : "."));
-			vscode.window.setStatusBarMessage(status, 5000);
-		});
-	};
-	let doMinify = function(document) {
-		let outName = document.fileName.split('.');
-		const ext = outName.pop();
-		outName.push("min");
-		outName.push(ext);
-		outName = outName.join('.');
-		let data = document.getText();
-		//if the document is empty here, we output an empty file to the min point
-		if (!data.length) return sendFileOut(outName, "", {
-			length: 1
-		});
-		//what are we minifying?
-		const isJS = ext.toLocaleLowerCase() === 'js';
-		const isCSS = ext.toLocaleLowerCase() === 'css';
-		const isHTML = ext.toLocaleLowerCase() === 'html' || ext.toLocaleLowerCase() === 'htm';
-		if (isJS) {
-			let opts = settings.js;
-			opts.fromString = true;
-			try {
-				let results = minjs.minify(data, opts);
-				sendFileOut(outName, results.code, {
-					length: data.length
-				});
-			} catch (e) {
-				vscode.window.setStatusBarMessage("Minify failed: " + e.message, 5000);
-			}
-		} else if (isCSS) {
-			let base = settings.css.root.slice();
-			settings.css.root = settings.css.root.replace("${workspaceRoot}", vscode.workspace.rootPath || "");
-			let cleanCSS = new mincss(settings.css);
-			cleanCSS.minify(data, (error, results) => {
-				settings.css.root = base;
-				if (results && results.styles) sendFileOut(outName, results.styles, {
-					length: data.length,
-					warnings: results.warnings.length,
-					errors: results.errors.length
-				});
-				else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
+  // Use the console to output diagnostic information (console.log) and errors (console.error)
+  // This line of code will only be executed once when your extension is activated
+  console.log('Congratulations, your extension "thiccfy" is now active!');
 
-			});
-		} else if (isHTML) {
-			// convert regex strings
-			let t = settings.html.minifyCSS;
-			let results;
-			if (typeof t === "object") {
-				if (t.root) {
-					t = t.root.slice();
-					settings.html.minifyCSS.root = "";
-				} else t = false;
-			} else t = false;
-			try {
-				settings.html.ignoreCustomFragments = settings.html.ignoreCustomFragments || [];
-				['customAttrAssign', 'customAttrSurround', 'customEventAttributes', 'ignoreCustomComments', 'ignoreCustomFragments']
-				.forEach(n => {
-					let e = settings.html[n];
-					if (Array.isArray(e)) {
-						settings.html[n] = e.map(ee => (typeof ee === 'string') ? new RegExp(ee.replace(/^\/(.*)\/$/, '$1')) : ee);
-					}
-				});
-				if (typeof settings.html.customAttrCollapse === 'string')
-					settings.html.customAttrCollapse = new RegExp(settings.html.customAttrCollapse.replace(/^\/(.*)\/$/, '$1'));
-				results = minhtml.minify(data, settings.html);
-			} catch (e) {
-				return vscode.window.setStatusBarMessage("Minify failed. (exception)", 5000);
-			}
-			if (t) settings.html.minifyCSS.root = t;
-			if (results) sendFileOut(outName, results, {
-				length: data.length
-			});
-			else vscode.window.setStatusBarMessage("Minify failed.", 5000);
-		}
-		//otherwise, we don't care ...
-	};
-	let doMinifyDir = function(folder, ext) {
-		fs.readdir(folder, (err, files) => {
-			//keep just our extension, drop all pre min'ed
-			files = files.sort()
-				.filter(f => path.extname(f)
-					.slice(1) === ext)
-				.filter(f => !f.endsWith(".min." + ext))
-				.map(f => path.join(folder, f));
-			if (files.length === 0) return vscode.window.setStatusBarMessage("No files for directory minify (", ext, ")",
-				5000);
-			let outName = folder + ".min." + ext;
-			if (ext === 'js') {
-				let opts = settings.js;
-				opts.fromString = false;
-				try {
-					let results = minjs.minify(files, opts);
-					sendFileOut(outName, results.code, {
-						files: files.length
-					});
-				} catch (e) {
-					vscode.window.setStatusBarMessage("Minify failed: " + e.message, 5000);
-				}
-			} else {
-				let base = settings.css.root.slice();
-				settings.css.root = settings.css.root.replace("${workspaceRoot}", vscode.workspace.rootPath || "");
-				//strip the root dir from the whole file set
-				files = files.map(f => f.replace(settings.css.root, ""));
-				let cleanCSS = new mincss(settings.css);
+  // The command has been defined in the package.json file
+  // Now provide the implementation of the command with  registerCommand
+  // The commandId parameter must match the command field in package.json
+  let disposable = vscode.commands.registerCommand(
+    "extension.sayHello",
+    function() {
+      // The code you place here will be executed every time your command is executed
 
-				cleanCSS.minify(files, (error, results) => {
-					settings.css.root = base;
-					if (results && results.styles && results.styles.length) sendFileOut(outName, results.styles, {
-						files: files.length,
-						warnings: results.warnings.length,
-						errors: results.errors.length
-					});
-					else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).",
-						5000);
-				});
-			}
-		});
-	};
-	let disposable = vscode.commands.registerCommand('HookyQR.minify', function() {
-		const active = vscode.window.activeTextEditor;
-		if (!active || !active.document) return;
-		if (active.document.isUntitled) return vscode.window.setStatusBarMessage(
-			"File must be saved before minify can run",
-			5000);
-		return doMinify(active.document);
-	});
-	context.subscriptions.push(disposable);
-	disposable = vscode.commands.registerCommand('HookyQR.minifyDir', function() {
-		const active = vscode.window.activeTextEditor;
-		if (!active || !active.document) return;
-		if (active.document.isUntitled) return vscode.window.setStatusBarMessage(
-			"File must be saved before minify can run",
-			5000);
+      // Display a message box to the user
+      vscode.window.showInformationMessage("Hello World!");
+    }
+  );
 
-		let ext = active.document.fileName.split('.')
-			.pop()
-			.toLowerCase();
-		if (ext === 'js' || ext === 'css') doMinifyDir(path.dirname(active.document.fileName), ext);
-		else vscode.window.setStatusBarMessage("Active file must be .css or .js to minify parent directory.",
-			5000);
-	});
-	context.subscriptions.push(disposable);
-	disposable = vscode.workspace.onDidChangeConfiguration(() => {
-		settings = cleanSettings(vscode.workspace.getConfiguration()
-			.get("minify"));
-	});
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 
-	disposable = vscode.workspace.onDidSaveTextDocument(function(doc) {
-		//check if the user wants to do a minify here
-		if (!vscode.workspace.getConfiguration('minify')
-			.minifyExistingOnSave) return;
-		//check if there is a *.min.* file
-		let n = doc.fileName.split('.');
-		const ext = n.pop();
-		n.push("min");
-		n.push(ext);
-		n = n.join(".");
-		//see if there is a file, if there is, run min
-		fs.exists(n, exists => exists ? doMinify(doc) : false);
-		const isJS = (ext.toLowerCase() === "js");
-		const isCSS = (ext.toLowerCase() === "css");
-		if (isJS || isCSS) {
-			//check if the directory has a min
-			n = path.dirname(doc.fileName);
-			n += ".min." + (isJS ? "js" : "css");
-			fs.exists(n, exists => exists ? doMinifyDir(path.dirname(doc.fileName), isJS ? "js" : "css") : false);
-		}
-	});
-	context.subscriptions.push(disposable);
+  //   disposable = vscode.commands.registerCommand(
+  //     "extension.thiccify",
+  //     function() {
+  //       var code = badCode(10, "worst code in the histor[y of javascript");
+  //       // Display a message box to the user
+  //       vscode.window.showInformationMessage(eval(code));
+  //     }
+  //   );
+
+  //   context.subscriptions.push(disposable);
 }
 exports.activate = activate;
+
+// this method is called when your extension is deactivated
+function deactivate() {}
+exports.deactivate = deactivate;
