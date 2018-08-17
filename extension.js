@@ -5,7 +5,7 @@ const badcode = require("bad-code");
 const fs = require("fs");
 const path = require("path");
 
-let sendFileOut = function(fileName, data, stats) {
+let sendFileOut = function (fileName, data, stats) {
   fs.writeFile(fileName, data, "utf8", () => {
     let status = "Maxified: " + stats.files + " files";
     if (stats.length)
@@ -21,7 +21,7 @@ let sendFileOut = function(fileName, data, stats) {
     vscode.window.setStatusBarMessage(status, 5000);
   });
 };
-let doMaxify = function(document) {
+let doMaxify = function (document) {
   let outName = document.fileName.split(".");
   const ext = outName.pop();
   outName.push("max");
@@ -44,7 +44,7 @@ let doMaxify = function(document) {
     try {
       console.log(data);
       //   let results = minjs.minify(data, opts);
-      let results = data;
+      let results = badcode(data);
       sendFileOut(outName, results, {
         length: data.length
       });
@@ -137,7 +137,7 @@ function activate(context) {
   // The commandId parameter must match the command field in package.json
   let disposable = vscode.commands.registerCommand(
     "extension.sayHello",
-    function() {
+    function () {
       // The code you place here will be executed every time your command is executed
 
       // Display a message box to the user
@@ -149,7 +149,7 @@ function activate(context) {
 
   disposable = vscode.commands.registerCommand(
     "extension.thiccify",
-    function() {
+    function () {
       const active = vscode.window.activeTextEditor;
       if (!active || !active.document) return;
       if (active.document.isUntitled)
@@ -167,5 +167,5 @@ function activate(context) {
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 exports.deactivate = deactivate;
