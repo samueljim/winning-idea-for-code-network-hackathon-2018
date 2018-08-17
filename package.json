@@ -2,7 +2,7 @@
   "name": "thiccfy",
   "displayName": "Thiccfy",
   "description": "we make your code look more complicated",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "thiccify",
   "engines": {
     "vscode": "^1.26.0"
