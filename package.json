@@ -30,6 +30,8 @@
   "scripts": {
     "preinstall": "cd ./thiccify&&npm install",
     "postinstall": "node ./node_modules/vscode/bin/install",
+    "start": "node server.js",
+    "dev": "nodemon -e js,html,css,pug server.js",
     "test": "node ./node_modules/vscode/bin/test"
   },
   "devDependencies": {
@@ -39,5 +41,13 @@
     "eslint": "^4.11.0",
     "typescript": "^2.6.1",
     "vscode": "^1.1.21"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.18.3",
+    "pug": "^2.0.3"
   }
 }
