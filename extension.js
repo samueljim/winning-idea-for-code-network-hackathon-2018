@@ -5,15 +5,16 @@ const thiccify = require('./thiccify');
 // const minhtml = require('html-minifier');
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 
 //register on activation
 function activate(context) {
   let sendFileOut = function (fileName, data, stats) {
     fs.writeFile(fileName, data, "utf8", () => {
       let status = "Thiccified: " + stats.files + " files";
-      if (stats.length) status = "Minified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
+      if (stats.length) status = "Thiccified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
         "% of original" + (stats.errors ? " but with errors." : (stats.warnings ? " but with warnings." : "."));
-      vscode.window.setStatusBarMessage(status, 5000);
+      vscode.window.setStatusBarMessage(status, 10000);
     });
   };
   let doThiccify = function (document) {
@@ -35,10 +36,11 @@ function activate(context) {
       // let opts = settings.js;
       // opts.fromString = true;
       try {
-        console.log(data);
+        console.log(chalk.green("Input", data));
         let results = thiccify.minify(data);
-        // let results = "it worked right?";
-        // let results = data;
+        console.log(chalk.red("Output", results.map));
+        console.log(chalk.red("Mapping", results.map));
+
         sendFileOut(outName, results.code, {
           length: data.length
         });
@@ -46,7 +48,7 @@ function activate(context) {
         vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
       }
     } else if (isCSS) {
-      
+
       // let cleanCSS = new mincss(settings.css);
       cleanCSS.minify(data, (error, results) => {
         if (results && results.styles) sendFileOut(outName, results.styles, {
