@@ -11,23 +11,24 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.sayHello",
-    "onCommand:extension.thiccify"
+    "onCommand:extension.thiccify",
+    "onCommand:extension.thiccifyDir"
   ],
   "main": "./extension",
   "contributes": {
     "commands": [
       {
-        "command": "extension.sayHello",
-        "title": "Hello World"
-      },
-      {
         "command": "extension.thiccify",
         "title": "Thiccify"
+      },
+      {
+        "command": "extension.thiccifyDir",
+        "title": "Thiccify this folder"
       }
     ]
   },
   "scripts": {
+    "preinstall": "cd ./thiccify&&npm install",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },
