@@ -219,8 +219,8 @@ function mangle_properties(ast, options) {
         var mangledNames = [];
         
         while (true) {
-            adjectiveIndex = Math.round(Math.random() * (adjectives.length - 1));
-            buzzwordIndex = Math.round(Math.random() * (buzzwords.length - 1));
+            var adjectiveIndex = Math.round(Math.random() * (adjectives.length - 1));
+            var buzzwordIndex = Math.round(Math.random() * (buzzwords.length - 1));
             
             var mangledName = [adjectives[adjectiveIndex]] + [buzzwords[buzzwordIndex]];
             if (mangledNames.includes(mangledName)) {
@@ -233,7 +233,7 @@ function mangle_properties(ast, options) {
             yield mangledName;
         }
     }
-    gName = genMangledNames();
+    var gName = genMangledNames();
 
     function can_mangle(name) {
         if (unmangleable.indexOf(name) >= 0) return false;
