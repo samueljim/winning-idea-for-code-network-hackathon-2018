@@ -54,8 +54,6 @@ function activate(context) {
       try {
         
         //Does all the css crap that nobody should every have to read.
-        let attr = [];
-        let b = true;
         data = removeEmptyLines(data);
         data = data.replace(new RegExp('{', 'g'), '{\n');
         data = data.replace(new RegExp('}', 'g'), '\n}\n');
@@ -74,35 +72,7 @@ function activate(context) {
         });
 
 
-        console.log(results);
         
-      
-        
-
-
-
-
-        /*while(b){
-          let re = new RegExp('\{([^}]+)\}');
-          let gayre = new RegExp('^[.#a-z0-9A-Z ]*');
-          let results = gayre.exec(data)[0] + re.exec(data)[0];
-          console.log(result);
-          data = data.replace(results, '');
-          attr.push(results);
-          
-          sendFileOut(outName, results, {
-            length: data.length
-          });
-          
-          if(data.length == 0){
-            b = false;
-          }
-          console.log("memes " + data );
-          }
-        */
-
-
-
         
       } catch (e) {
         vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
@@ -132,6 +102,28 @@ function activate(context) {
       });
     } else if (isHTML) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's html", 5000);
+
+      var ob = require('./HTML.json');
+      console.log(ob);
+      for (var property in ob) {
+        if (ob.hasOwnProperty(property)) {
+            console.log(prop);
+            var prop = property.slice(0, -1);
+            var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
+            //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
+            data = data.replace(new RegExp(prop+'>', 'g'), comment + '>');
+            data = data.replace(new RegExp(prop+' ', 'g'), comment + ' ');
+            
+        } 
+      }
+      let results = data;
+      sendFileOut(outName, results, {
+        length: data.length
+      });
+
+      //Does all the HTML crap
+
+
 
       // convert regex strings
       // let results;
