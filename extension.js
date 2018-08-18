@@ -5,15 +5,18 @@ const thiccify = require('./thiccify');
 // const minhtml = require('html-minifier');
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
+const removeEmptyLines = require("remove-blank-lines");
+
 
 //register on activation
 function activate(context) {
   let sendFileOut = function (fileName, data, stats) {
     fs.writeFile(fileName, data, "utf8", () => {
       let status = "Thiccified: " + stats.files + " files";
-      if (stats.length) status = "Minified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
+      if (stats.length) status = "Thiccified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
         "% of original" + (stats.errors ? " but with errors." : (stats.warnings ? " but with warnings." : "."));
-      vscode.window.setStatusBarMessage(status, 5000);
+      vscode.window.setStatusBarMessage(status, 10000);
     });
   };
   let doThiccify = function (document) {
@@ -35,10 +38,11 @@ function activate(context) {
       // let opts = settings.js;
       // opts.fromString = true;
       try {
-        console.log(data);
+        console.log(chalk.green("Input", data));
         let results = thiccify.minify(data);
-        // let results = "it worked right?";
-        // let results = data;
+        console.log(chalk.red("Output", results.map));
+        console.log(chalk.red("Mapping", results.map));
+
         sendFileOut(outName, results.code, {
           length: data.length
         });
@@ -46,7 +50,76 @@ function activate(context) {
         vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
       }
     } else if (isCSS) {
+      vscode.window.setStatusBarMessage("Thiccify failed: That's css", 5000);
+      try {
+        
+        //Does all the css crap that nobody should every have to read.
+        let attr = [];
+        let b = true;
+        data = removeEmptyLines(data);
+        data = data.replace(new RegExp('{', 'g'), '{\n');
+        data = data.replace(new RegExp('}', 'g'), '\n}\n');
+        var obj = require('./cssNames.json');
+        for (var property in obj) {
+          if (obj.hasOwnProperty(property)) {
+              
+              var comment = "\n\t/*" + obj[property] + "*/\n\t" + property+":";
+              data = data.replace(new RegExp(" "+property+":", 'g'), comment);
+              
+          }
+        }
+        let results = data;
+        sendFileOut(outName, results, {
+          length: data.length
+        });
+
+
+        console.log(results);
+        
       
+        
+
+
+
+
+        /*while(b){
+          let re = new RegExp('\{([^}]+)\}');
+          let gayre = new RegExp('^[.#a-z0-9A-Z ]*');
+          let results = gayre.exec(data)[0] + re.exec(data)[0];
+          console.log(result);
+          data = data.replace(results, '');
+          attr.push(results);
+          
+          sendFileOut(outName, results, {
+            length: data.length
+          });
+          
+          if(data.length == 0){
+            b = false;
+          }
+          console.log("memes " + data );
+          }
+        */
+
+
+
+        
+      } catch (e) {
+        vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
+      }
+      // let base = settings.css.root.slice();
+      // settings.css.root = settings.css.root.replace("${workspaceRoot}", vscode.workspace.rootPath || "");
+      // // let cleanCSS = new mincss(settings.css);
+      // let cleanCSS = settings.css;
+      // cleanCSS.minify(data, (error, results) => {
+      //   settings.css.root = base;
+      //   if (results && results.styles) sendFileOut(outName, results.styles, {
+      //     length: data.length,
+      //     warnings: results.warnings.length,
+      //     errors: results.errors.length
+      //   });
+      //   else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
+
       // let cleanCSS = new mincss(settings.css);
       cleanCSS.minify(data, (error, results) => {
         if (results && results.styles) sendFileOut(outName, results.styles, {

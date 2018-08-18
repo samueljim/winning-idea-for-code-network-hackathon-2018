@@ -55,12 +55,12 @@ function OutputStream(options) {
     var readonly = !options;
     options = defaults(options, {
         ascii_only: true,
-        beautify: true,
+        beautify: false,
         braces: true,
         comments: true,
         ie8: true,
-        indent_level: 8,
-        indent_start: 4,
+        indent_level: 4,
+        indent_start: 2,
         inline_script: true,
         keep_quoted_props: true,
         max_line_len: true,
@@ -68,7 +68,7 @@ function OutputStream(options) {
         preserve_line: true,
         quote_keys: true,
         quote_style: 0,
-        semicolons: false,
+        semicolons: true,
         shebang: true,
         source_map: null,
         webkit: true,
@@ -294,7 +294,7 @@ function OutputStream(options) {
                     current_pos++;
                 } else {
                     fix_line();
-                    OUTPUT += "\n";
+                    OUTPUT += "\n\n";
                     current_pos++;
                     current_line++;
                     current_col = 0;
@@ -385,7 +385,7 @@ function OutputStream(options) {
     } : may_add_newline;
 
     var semicolon = options.beautify ? function () {
-        print(";");
+        print("; /* <-- semicolon */");
     } : function () {
         might_need_semicolon = true;
     };
@@ -401,13 +401,13 @@ function OutputStream(options) {
 
     function with_block(cont) {
         var ret;
-        print("{");
+        print("/* opening function --> */ {");
         newline();
         with_indent(next_indent(), function () {
             ret = cont();
         });
         indent();
-        print("}");
+        print("} /* <-- end of function */ ");
         return ret;
     }
 
@@ -428,7 +428,7 @@ function OutputStream(options) {
         //var ret = with_indent(current_col, cont);
         var ret = cont();
         may_add_newline();
-        print("]");
+        print("] /* <-- array */");
         return ret;
     }
 
