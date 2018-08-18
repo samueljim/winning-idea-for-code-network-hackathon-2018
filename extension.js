@@ -46,21 +46,17 @@ function activate(context) {
         vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
       }
     } else if (isCSS) {
-      vscode.window.setStatusBarMessage("Thiccify failed: That's css", 5000);
-      // let base = settings.css.root.slice();
-      // settings.css.root = settings.css.root.replace("${workspaceRoot}", vscode.workspace.rootPath || "");
-      // // let cleanCSS = new mincss(settings.css);
-      // let cleanCSS = settings.css;
-      // cleanCSS.minify(data, (error, results) => {
-      //   settings.css.root = base;
-      //   if (results && results.styles) sendFileOut(outName, results.styles, {
-      //     length: data.length,
-      //     warnings: results.warnings.length,
-      //     errors: results.errors.length
-      //   });
-      //   else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
+      
+      // let cleanCSS = new mincss(settings.css);
+      cleanCSS.minify(data, (error, results) => {
+        if (results && results.styles) sendFileOut(outName, results.styles, {
+          length: data.length,
+          warnings: results.warnings.length,
+          errors: results.errors.length
+        });
+        else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
 
-      // });
+      });
     } else if (isHTML) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's html", 5000);
 
