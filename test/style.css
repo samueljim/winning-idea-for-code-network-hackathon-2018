@@ -1,0 +1,38 @@
+body {
+    font-family: 'Montserrat', Monospace;
+
+    margin: 0;
+
+    padding: 0;
+
+    -webkit-transition-duration: 2s;
+    -moz-transition-duration: 2s;
+    -o-transition-duration: 2s;
+    transition-duration: 2s;
+
+}
+
+canvas {
+    display: block;
+    vertical-align: bottom;
+    width: 100%;
+    height: 100%;
+}
+
+#hover {
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+}
+
+.heading {
+    padding: 20px;
+}
+
+.heading img {
+	
+    padding: 30px;
+    position: block;
+    margin-left: auto;
+    margin-right: auto;
+}

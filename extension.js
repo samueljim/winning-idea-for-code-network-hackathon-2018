@@ -27,6 +27,7 @@ function activate(context) {
     if (!data.length) return sendFileOut(outName, "", {
       length: 1
     });
+<<<<<<< Updated upstream
     //what are we Thiccifying?
     const isJS = ext.toLocaleLowerCase() === 'js';
     const isCSS = ext.toLocaleLowerCase() === 'css';
@@ -59,6 +60,41 @@ function activate(context) {
       //     errors: results.errors.length
       //   });
       //   else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
+=======
+  //what are we minifying?
+  const isJS = ext.toLocaleLowerCase() === "js";
+  const isCSS = ext.toLocaleLowerCase() === "css";
+  const isHTML =
+    ext.toLocaleLowerCase() === "html" || ext.toLocaleLowerCase() === "htm";
+  if (isJS) {
+    // let opts = settings.js;
+    // opts.fromString = true;
+    try {
+      console.log(data);
+      //   let results = minjs.minify(data, opts);
+      let results = badcode(data);
+      sendFileOut(outName, results, {
+        length: data.length
+      });
+    } catch (e) {
+      vscode.window.setStatusBarMessage("Maxify failed: " + e.message, 5000);
+    }
+  } else if (isCSS) {
+    vscode.window.setStatusBarMessage("isCSS", 5000);
+    try {
+      console.log(data);
+      //   let results = minjs.minify(data, opts);
+      let results = badcode(data);
+      sendFileOut(outName, results, {
+        length: data.length
+      });
+    } catch (e) {
+      vscode.window.setStatusBarMessage("Maxify failed: " + e.message, 5000);
+    }
+    
+    
+    //{(.*?)}
+>>>>>>> Stashed changes
 
       // });
     } else if (isHTML) {
