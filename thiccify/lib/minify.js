@@ -1,9 +1,9 @@
 "use strict";
 
-var to_ascii = typeof atob == "undefined" ? function(b64) {
+var to_ascii = typeof atob == "undefined" ? function (b64) {
     return new Buffer(b64, "base64").toString();
 } : atob;
-var to_base64 = typeof btoa == "undefined" ? function(str) {
+var to_base64 = typeof btoa == "undefined" ? function (str) {
     return new Buffer(str).toString("base64");
 } : btoa;
 
@@ -26,7 +26,7 @@ function parse_source_map(content) {
 
 function set_shorthand(name, options, keys) {
     if (options[name]) {
-        keys.forEach(function(key) {
+        keys.forEach(function (key) {
             if (options[key]) {
                 if (typeof options[key] != "object") options[key] = {};
                 if (!(name in options[key])) options[key][name] = options[name];
@@ -63,7 +63,7 @@ function minify(files, options) {
             output: {},
             parse: {},
             rename: undefined,
-            sourceMap: false,
+            sourceMap: true,
             timings: false,
             toplevel: false,
             warnings: false,
@@ -75,10 +75,10 @@ function minify(files, options) {
         if (options.rename === undefined) {
             options.rename = options.compress && options.mangle;
         }
-        set_shorthand("ie8", options, [ "compress", "mangle", "output" ]);
-        set_shorthand("keep_fnames", options, [ "compress", "mangle" ]);
-        set_shorthand("toplevel", options, [ "compress", "mangle" ]);
-        set_shorthand("warnings", options, [ "compress" ]);
+        set_shorthand("ie8", options, ["compress", "mangle", "output"]);
+        set_shorthand("keep_fnames", options, ["compress", "mangle"]);
+        set_shorthand("toplevel", options, ["compress", "mangle"]);
+        set_shorthand("warnings", options, ["compress"]);
         var quoted_props;
         if (options.mangle) {
             options.mangle = defaults(options.mangle, {
@@ -117,7 +117,7 @@ function minify(files, options) {
         }
         var warnings = [];
         if (options.warnings && !AST_Node.warn_function) {
-            AST_Node.warn_function = function(warning) {
+            AST_Node.warn_function = function (warning) {
                 warnings.push(warning);
             };
         }
@@ -127,7 +127,7 @@ function minify(files, options) {
             toplevel = files;
         } else {
             if (typeof files == "string") {
-                files = [ files ];
+                files = [files];
             }
             options.parse = options.parse || {};
             options.parse.toplevel = null;

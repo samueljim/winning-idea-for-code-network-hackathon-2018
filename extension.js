@@ -5,6 +5,7 @@ const thiccify = require('./thiccify');
 // const minhtml = require('html-minifier');
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 const removeEmptyLines = require("remove-blank-lines");
 
 
@@ -13,9 +14,9 @@ function activate(context) {
   let sendFileOut = function (fileName, data, stats) {
     fs.writeFile(fileName, data, "utf8", () => {
       let status = "Thiccified: " + stats.files + " files";
-      if (stats.length) status = "Minified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
+      if (stats.length) status = "Thiccified: " + (((data.length / stats.length) * 10000) | 0) / 100 +
         "% of original" + (stats.errors ? " but with errors." : (stats.warnings ? " but with warnings." : "."));
-      vscode.window.setStatusBarMessage(status, 5000);
+      vscode.window.setStatusBarMessage(status, 10000);
     });
   };
   let doThiccify = function (document) {
@@ -37,11 +38,12 @@ function activate(context) {
       // let opts = settings.js;
       // opts.fromString = true;
       try {
-        console.log(data);
-        // let results = thiccify.minify(data, opts);
-        let results = "it worked right?";
-        // let results = data;
-        sendFileOut(outName, results, {
+        console.log(chalk.green("Input", data));
+        let results = thiccify.minify(data);
+        console.log(chalk.red("Output", results.map));
+        console.log(chalk.red("Mapping", results.map));
+
+        sendFileOut(outName, results.code, {
           length: data.length
         });
       } catch (e) {
@@ -118,7 +120,16 @@ function activate(context) {
       //   });
       //   else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
 
-      // });
+      // let cleanCSS = new mincss(settings.css);
+      cleanCSS.minify(data, (error, results) => {
+        if (results && results.styles) sendFileOut(outName, results.styles, {
+          length: data.length,
+          warnings: results.warnings.length,
+          errors: results.errors.length
+        });
+        else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
+
+      });
     } else if (isHTML) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's html", 5000);
 
@@ -166,10 +177,11 @@ function activate(context) {
         5000);
       let outName = folder + ".max." + ext;
       if (ext === 'js') {
-        let opts = settings.js;
-        opts.fromString = false;
+        // let opts = settings.js;
+        // opts.fromString = false;
         try {
-          let results = files
+          // let results = files
+          let results = thiccify.minify(files);
           // let results = minjs.minify(files, opts);
           sendFileOut(outName, results.code, {
             files: files.length
