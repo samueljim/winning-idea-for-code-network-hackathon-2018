@@ -36,8 +36,8 @@ function activate(context) {
       // opts.fromString = true;
       try {
         console.log(data);
-        // let results = thiccify.minify(data, opts);
-        let results = "it worked right?";
+        let results = thiccify.minify(data, opts);
+        // let results = "it worked right?";
         // let results = data;
         sendFileOut(outName, results, {
           length: data.length
@@ -111,7 +111,8 @@ function activate(context) {
         let opts = settings.js;
         opts.fromString = false;
         try {
-          let results = files
+          // let results = files
+          let results = thiccify.minify(files, opts);
           // let results = minjs.minify(files, opts);
           sendFileOut(outName, results.code, {
             files: files.length
