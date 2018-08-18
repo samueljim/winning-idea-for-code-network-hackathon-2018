@@ -119,7 +119,7 @@ function mangle_properties(ast, options) {
     if (!Array.isArray(reserved)) reserved = [];
     if (!options.builtins) find_builtins(reserved);
 
-    var cname = -1;
+    //var cname = -1;
     var cache;
     if (options.cache) {
         cache = options.cache.props;
@@ -177,6 +177,63 @@ function mangle_properties(ast, options) {
     }));
 
     // only function declarations after this line
+    function* genMangledNames() {
+        var adjectives = [
+            "peterLaurie",
+            "elegant",
+            "micro",
+            "cyber",
+            "crystal",
+            "serious",
+            "blue",
+            "metal",
+            "unicorn",
+            "synergy",
+            "git",
+            "arrgh",
+            "rust"
+        ];
+        var buzzwords = [
+            "BlockChain",
+            "Cloud",
+            "DeepLearning",
+            "DecisionTree",
+            "AssociationRule",
+            "ArtificialNeuralNetworks",
+            "Deep",
+            "InductiveLogicProgramming",
+            "SupportVectorMachine",
+            "Clustering",
+            "BayesianNetwork",
+            "Reinforcement",
+            "SimilarityAndMetric",
+            "SparseDictionary",
+            "GeneticAlgorithms",
+            "RuleBasedMachine",
+            "ClassifierSystem",
+            "FeatureSelectionApproach",
+            "ICO"
+        ];
+
+        var cntr = 0;
+        var mangledNames = [];
+        
+        while (true) {
+            adjectiveIndex = Math.round(Math.random() * (adjectives.length - 1));
+            buzzwordIndex = Math.round(Math.random() * (buzzwords.length - 1));
+            
+            var mangledName = [adjectives[adjectiveIndex]] + [buzzwords[buzzwordIndex]];
+            if (mangledNames.includes(mangledName)) {
+                mangledName += cntr;
+                cntr++;
+            } else {
+                mangledNames.push(mangledName);
+            }
+            
+            yield mangledName;
+        }
+    }
+    gName = genMangledNames();
 
     function can_mangle(name) {
         if (unmangleable.indexOf(name) >= 0) return false;
@@ -210,7 +267,8 @@ function mangle_properties(ast, options) {
             }
             // either debug mode is off, or it is on and we could not use the mangled name
             if (!mangled) do {
-                mangled = base54(++cname);
+                //mangled = base54(++cname);
+                mangled = gName.next().value;
             } while (!can_mangle(mangled));
             cache.set(name, mangled);
         }
