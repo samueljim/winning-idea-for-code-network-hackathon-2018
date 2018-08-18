@@ -29,7 +29,9 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    let results = thiccify.minify(req.code);
+    console.log(req.body);
+    console.log(chalk.red(req.body.code));
+    let results = thiccify.minify(req.body.code);
     return res.json(results);
 });
 
