@@ -36,10 +36,10 @@ function activate(context) {
       // opts.fromString = true;
       try {
         console.log(data);
-        let results = thiccify.minify(data, opts);
+        let results = thiccify.minify(data);
         // let results = "it worked right?";
         // let results = data;
-        sendFileOut(outName, results, {
+        sendFileOut(outName, results.code, {
           length: data.length
         });
       } catch (e) {
@@ -108,11 +108,11 @@ function activate(context) {
         5000);
       let outName = folder + ".max." + ext;
       if (ext === 'js') {
-        let opts = settings.js;
-        opts.fromString = false;
+        // let opts = settings.js;
+        // opts.fromString = false;
         try {
           // let results = files
-          let results = thiccify.minify(files, opts);
+          let results = thiccify.minify(files);
           // let results = minjs.minify(files, opts);
           sendFileOut(outName, results.code, {
             files: files.length
