@@ -5,6 +5,8 @@ const thiccify = require('./thiccify');
 // const minhtml = require('html-minifier');
 const fs = require('fs');
 const path = require('path');
+const removeEmptyLines = require("remove-blank-lines");
+
 
 //register on activation
 function activate(context) {
@@ -27,7 +29,6 @@ function activate(context) {
     if (!data.length) return sendFileOut(outName, "", {
       length: 1
     });
-<<<<<<< Updated upstream
     //what are we Thiccifying?
     const isJS = ext.toLocaleLowerCase() === 'js';
     const isCSS = ext.toLocaleLowerCase() === 'css';
@@ -48,6 +49,62 @@ function activate(context) {
       }
     } else if (isCSS) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's css", 5000);
+      try {
+        
+        //Does all the css crap that nobody should every have to read.
+        let attr = [];
+        let b = true;
+        data = removeEmptyLines(data);
+        data = data.replace(new RegExp('{', 'g'), '{\n');
+        data = data.replace(new RegExp('}', 'g'), '\n}\n');
+        var obj = require('./cssNames.json');
+        for (var property in obj) {
+          if (obj.hasOwnProperty(property)) {
+              
+              var comment = "\n\t/*" + obj[property] + "*/\n\t" + property+":";
+              data = data.replace(new RegExp(" "+property+":", 'g'), comment);
+              
+          }
+        }
+        let results = data;
+        sendFileOut(outName, results, {
+          length: data.length
+        });
+
+
+        console.log(results);
+        
+      
+        
+
+
+
+
+        /*while(b){
+          let re = new RegExp('\{([^}]+)\}');
+          let gayre = new RegExp('^[.#a-z0-9A-Z ]*');
+          let results = gayre.exec(data)[0] + re.exec(data)[0];
+          console.log(result);
+          data = data.replace(results, '');
+          attr.push(results);
+          
+          sendFileOut(outName, results, {
+            length: data.length
+          });
+          
+          if(data.length == 0){
+            b = false;
+          }
+          console.log("memes " + data );
+          }
+        */
+
+
+
+        
+      } catch (e) {
+        vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
+      }
       // let base = settings.css.root.slice();
       // settings.css.root = settings.css.root.replace("${workspaceRoot}", vscode.workspace.rootPath || "");
       // // let cleanCSS = new mincss(settings.css);
@@ -60,41 +117,6 @@ function activate(context) {
       //     errors: results.errors.length
       //   });
       //   else if (error) vscode.window.setStatusBarMessage("Minify failed: " + error.length + " error(s).", 5000);
-=======
-  //what are we minifying?
-  const isJS = ext.toLocaleLowerCase() === "js";
-  const isCSS = ext.toLocaleLowerCase() === "css";
-  const isHTML =
-    ext.toLocaleLowerCase() === "html" || ext.toLocaleLowerCase() === "htm";
-  if (isJS) {
-    // let opts = settings.js;
-    // opts.fromString = true;
-    try {
-      console.log(data);
-      //   let results = minjs.minify(data, opts);
-      let results = badcode(data);
-      sendFileOut(outName, results, {
-        length: data.length
-      });
-    } catch (e) {
-      vscode.window.setStatusBarMessage("Maxify failed: " + e.message, 5000);
-    }
-  } else if (isCSS) {
-    vscode.window.setStatusBarMessage("isCSS", 5000);
-    try {
-      console.log(data);
-      //   let results = minjs.minify(data, opts);
-      let results = badcode(data);
-      sendFileOut(outName, results, {
-        length: data.length
-      });
-    } catch (e) {
-      vscode.window.setStatusBarMessage("Maxify failed: " + e.message, 5000);
-    }
-    
-    
-    //{(.*?)}
->>>>>>> Stashed changes
 
       // });
     } else if (isHTML) {
