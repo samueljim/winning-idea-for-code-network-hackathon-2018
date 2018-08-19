@@ -43,11 +43,12 @@ function activate(context) {
         console.log(chalk.green("Input", data));
 
         let results = thiccify.run(data);
+        let unrolled = thiccify.unRoll(results.code);
 
-        console.log(chalk.red("Output", results.code));
+        console.log(chalk.red("Output", unrolled.code));
         // console.log(chalk.red("Mapping", results.map));
 
-        sendFileOut(outName, results.code, {
+        sendFileOut(outName, unrolled.code, {
           length: data.length
         });
       } catch (e) {
@@ -134,13 +135,13 @@ function activate(context) {
       });
     } else if (isHTML) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's html", 5000);
-      
+
 
 
       //let results = data;
       data = data.replace(/<!--[\S ]*-->/g, '');
 
-      
+
       console.log(ob);
       for (var property in ob) {
         if (ob.hasOwnProperty(property)) {

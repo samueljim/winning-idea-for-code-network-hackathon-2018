@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require('fs');
 const bodyParser = require("body-parser");
 
-const thiccify = require('./thiccify');
+const thiccify = require('./thiccify.js');
 
 var app = express();
 // clear console for clean output
@@ -31,7 +31,7 @@ app.get("/", function (req, res) {
 app.post("/", function (req, res) {
     console.log(req.body);
     console.log(chalk.red(req.body.code));
-    let results = thiccify.minify(req.body.code);
+    let results = thiccify.run(req.body.code);
     return res.json(results);
 });
 

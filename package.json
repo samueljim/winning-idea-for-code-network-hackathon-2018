@@ -10,7 +10,7 @@
     "vscode": "^1.26.0"
   },
   "categories": [
-    "Other"
+    "Formatters"
   ],
   "activationEvents": [
     "onCommand:extension.thiccify",
