@@ -1,79 +1,47 @@
 body {
-
-   
+   
 	/*Specifies the font family for text*/
-	font-family: 'Montserrat', Monospace;
-
-   
+	font-family: 'Montserrat', Monospace;   
 	/*Sets all the margin properties in one declaration*/
-	margin: 0;
-
-   
+	margin: 0;   
 	/*A shorthand property for all the padding-* properties*/
-	padding: 0;
-
-    -webkit-transition-duration: 2s;
-    -moz-transition-duration: 2s;
-    -o-transition-duration: 2s;
-   
+	padding: 0;    -webkit-transition-duration: 2s;    -moz-transition-duration: 2s;    -o-transition-duration: 2s;   
 	/*Specifies how many seconds or milliseconds a transition effect takes to complete*/
-	transition-duration: 2s;
-
+	transition-duration: 2s;
 }
-
-
-canvas {
-
-   
+canvas {
+   
 	/*Specifies how a certain HTML element should be displayed*/
-	display: block;
-   
+	display: block;   
 	/*Sets the vertical alignment of an element*/
-	vertical-align: bottom;
-   
+	vertical-align: bottom;   
 	/*Sets the width of an element*/
-	width: 100%;
-   
+	width: 100%;   
 	/*Sets the height of an element*/
 	height: 100%;
 }
-
-
-#hover {
-
-   
+#hover {
+   
 	/*Sets the left margin of an element*/
-	margin-left: auto;
-   
+	margin-left: auto;   
 	/*Sets the right margin of an element*/
-	margin-right: auto;
-   
+	margin-right: auto;   
 	/*Specifies the type of positioning method used for an element (static, relative, absolute or fixed)*/
 	position: absolute;
 }
-
-
-.heading {
-
-   
+.heading {
+   
 	/*A shorthand property for all the padding-* properties*/
 	padding: 20px;
 }
-
-
-.heading img {
-
-	
-   
+.heading img {
+	   
 	/*A shorthand property for all the padding-* properties*/
-	padding: 30px;
-   
+	padding: 30px;   
 	/*Specifies the type of positioning method used for an element (static, relative, absolute or fixed)*/
-	position: block;
-   
+	position: block;   
 	/*Sets the left margin of an element*/
-	margin-left: auto;
-   
+	margin-left: auto;   
 	/*Sets the right margin of an element*/
 	margin-right: auto;
 }

@@ -67,7 +67,7 @@ function Compressor(options, false_by_default) {
         if_return       : !false_by_default,
         inline          : !false_by_default,
         join_vars       : !false_by_default,
-        keep_fargs      : true,
+        keep_fargs      : false,
         keep_fnames     : false,
         keep_infinity   : false,
         loops           : !false_by_default,

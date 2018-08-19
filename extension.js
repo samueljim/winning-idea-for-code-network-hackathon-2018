@@ -1,12 +1,14 @@
 "use strict";
 const vscode = require('vscode');
-const thiccify = require('./thiccify');
-// const mincss = require('clean-css');
-// const minhtml = require('html-minifier');
+const thiccify = require('./thiccify.js');
+
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const removeEmptyLines = require("remove-blank-lines");
+const ob = require('./HTML.json');
+
+
 
 
 //register on activation
@@ -39,9 +41,11 @@ function activate(context) {
       // opts.fromString = true;
       try {
         console.log(chalk.green("Input", data));
-        let results = thiccify.minify(data);
-        console.log(chalk.red("Output", results.map));
-        console.log(chalk.red("Mapping", results.map));
+
+        let results = thiccify.run(data);
+
+        console.log(chalk.red("Output", results.code));
+        // console.log(chalk.red("Mapping", results.map));
 
         sendFileOut(outName, results.code, {
           length: data.length
@@ -52,7 +56,7 @@ function activate(context) {
     } else if (isCSS) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's css", 5000);
       try {
-        
+
         //Does all the css crap that nobody should every have to read.
         data = removeEmptyLines(data);
         data = data.replace(new RegExp('{', 'g'), '{\n');
@@ -60,10 +64,10 @@ function activate(context) {
         var obj = require('./cssNames.json');
         for (var property in obj) {
           if (obj.hasOwnProperty(property)) {
-              
-              var comment = "\n\t/*" + obj[property] + "*/\n\t" + property+":";
-              data = data.replace(new RegExp(" "+property+":", 'g'), comment);
-              
+
+            var comment = "\n\t/*" + obj[property] + "*/\n\t" + property + ":";
+            data = data.replace(new RegExp(" " + property + ":", 'g'), comment);
+
           }
         }
         let results = data;
@@ -72,8 +76,36 @@ function activate(context) {
         });
 
 
-        
-        
+        console.log(results);
+
+
+
+
+
+
+
+        /*while(b){
+          let re = new RegExp('\{([^}]+)\}');
+          let gayre = new RegExp('^[.#a-z0-9A-Z ]*');
+          let results = gayre.exec(data)[0] + re.exec(data)[0];
+          console.log(result);
+          data = data.replace(results, '');
+          attr.push(results);
+          
+          sendFileOut(outName, results, {
+            length: data.length
+          });
+          
+          if(data.length == 0){
+            b = false;
+          }
+          console.log("memes " + data );
+          }
+        */
+
+
+
+
       } catch (e) {
         vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
       }
@@ -102,19 +134,24 @@ function activate(context) {
       });
     } else if (isHTML) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's html", 5000);
+      
 
-      var ob = require('./HTML.json');
+
+      //let results = data;
+      data = data.replace(/<!--[\S ]*-->/g, '');
+
+      
       console.log(ob);
       for (var property in ob) {
         if (ob.hasOwnProperty(property)) {
-            console.log(prop);
-            var prop = property.slice(0, -1);
-            var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
-            //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
-            data = data.replace(new RegExp(prop+'>', 'g'), comment + '>');
-            data = data.replace(new RegExp(prop+' ', 'g'), comment + ' ');
-            
-        } 
+          console.log(prop);
+          var prop = property.slice(0, -1);
+          var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
+          //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
+          data = data.replace(new RegExp(prop + '>', 'g'), comment + '>');
+          data = data.replace(new RegExp(prop + ' ', 'g'), comment + ' ');
+
+        }
       }
       let results = data;
       sendFileOut(outName, results, {
@@ -122,38 +159,6 @@ function activate(context) {
       });
 
       //Does all the HTML crap
-
-
-
-      // convert regex strings
-      // let results;
-      // if (typeof t === "object") {
-      //   if (t.root) {
-      //     t = t.root.slice();
-      //     settings.html.ThiccifyCSS.root = "";
-      //   } else t = false;
-      // } else t = false;
-      // try {
-      //   settings.html.ignoreCustomFragments = settings.html.ignoreCustomFragments || [];
-      //   ['customAttrAssign', 'customAttrSurround', 'customEventAttributes', 'ignoreCustomComments', 'ignoreCustomFragments']
-      //     .forEach(n => {
-      //       let e = settings.html[n];
-      //       if (Array.isArray(e)) {
-      //         settings.html[n] = e.map(ee => (typeof ee === 'string') ? new RegExp(ee.replace(/^\/(.*)\/$/, '$1')) : ee);
-      //       }
-      //     });
-      //   if (typeof settings.html.customAttrCollapse === 'string')
-      //     settings.html.customAttrCollapse = new RegExp(settings.html.customAttrCollapse.replace(/^\/(.*)\/$/, '$1'));
-      //   // results = minhtml.minify(data, settings.html);
-      //   results = data;
-      // } catch (e) {
-      //   return vscode.window.setStatusBarMessage("thiccify failed. (exception)", 5000);
-      // }
-      // if (t) settings.html.minifyCSS.root = t;
-      // if (results) sendFileOut(outName, results, {
-      //   length: data.length
-      // });
-      // else vscode.window.setStatusBarMessage("thiccify failed.", 5000);
     }
     //otherwise, we don't care ...
   };

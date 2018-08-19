@@ -2,7 +2,8 @@
   "name": "thiccify",
   "displayName": "Thiccify",
   "description": "we make your code look more complicated",
-  "version": "0.2.1",
+  "version": "0.8.3",
+  "license": "MIT",
   "repository": "https://github.com/samueljim/winning-idea-for-code-network-hackathon-2018",
   "publisher": "thiccify",
   "engines": {
@@ -29,7 +30,7 @@
     ]
   },
   "scripts": {
-    "preinstall": "cd ./thiccify&&npm install",
+    "vscode:prepublish": "npm install --no-optional",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "start": "node server.js",
     "now-start": "node server.js",
@@ -37,23 +38,16 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "dependencies": {
-    "@types/mocha": "^2.2.42",
-    "@types/node": "^8.10.25",
-    "bad-code": "0.0.1",
-    "eslint": "^4.11.0",
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.21",
-    "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
+    "remove-blank-lines": "^1.1.0",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
     "nodemon": "^1.18.3",
-    "remove-blank-lines": "^1.1.0",
     "source-map": "^0.7.3",
-    "pug": "^2.0.3",
-    "vscode": "^1.1.21"
-  },
-  "dependencies": {
-    "remove-blank-lines": "^1.1.0"
+    "recast": "0.15.3",
+    "util": "^0.11.0",
+    "estree-walker": "^0.5.2",
+    "clone": "^2.1.2",
+    "pug": "^2.0.3"
   }
 }
