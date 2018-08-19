@@ -1,6 +1,8 @@
-function sendData(){
+// function sendData() {
+$("#input").keyup(function () {
     var data = $("#input").val();
     var radio = $("input[type='radio']:checked").val();
+
 
 
     console.log(data);
@@ -20,15 +22,17 @@ function sendData(){
         url: "/",
         cache: false,
         method: 'POST',
-        data: {"code": data, "codeType": radio},
-        success: function(data){
-        console.log("%c" + data, "background: blue; color: white;");
-          $("#output").html(data.code);
-          $("#error").text(data.msg);
+        data: { "code": data, "codeType": radio },
+        success: function (data) {
+            console.log("%c" + data, "background: blue; color: white;");
+            $("#output").html(data.code);
+            $("#error").text(data.msg);
         },
-        error: function(error) {
-        console.log("%c" + error.responseText, "background: red; color: white; font-size: large");
-          $("#error").text(error.responseText);
+        error: function (error) {
+            console.log("%c" + error.responseText, "background: red; color: white; font-size: large");
+            $("#error").text(error.responseText);
         }
-      });
-}
+    });
+});
+
+// }
