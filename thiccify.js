@@ -309,8 +309,8 @@ function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, pare
 
 
 function inlineCall(statementsArr, callNode, targetDefinition, returnName, visibleFunctions) {
-    const hasReturnedId = { type: "Identifier", name: returnName };
-    const returnId = { type: "Identifier", name: gName.next().value };
+    const hasReturnedId = { type: "Identifier", name: gName.next().value };
+    const returnId = { type: "Identifier", name: returnName };
 
     statementsArr.push({
         type: "VariableDeclaration",
