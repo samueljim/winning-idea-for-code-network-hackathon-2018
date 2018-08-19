@@ -9,7 +9,7 @@
     "vscode": "^1.26.0"
   },
   "categories": [
-    "Other"
+    "linter"
   ],
   "activationEvents": [
     "onCommand:extension.thiccify",
@@ -29,7 +29,7 @@
     ]
   },
   "scripts": {
-    "preinstall": "cd ./thiccify&&npm install",
+    "preinstall": "cd ./thiccify && npm install && cd .. && cd ./thiccify-old && npm install && cd ..",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "start": "node server.js",
     "now-start": "node server.js",
@@ -45,15 +45,11 @@
     "vscode": "^1.1.21",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
+    "remove-blank-lines": "^1.1.0",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
     "nodemon": "^1.18.3",
-    "remove-blank-lines": "^1.1.0",
     "source-map": "^0.7.3",
-    "pug": "^2.0.3",
-    "vscode": "^1.1.21"
-  },
-  "dependencies": {
-    "remove-blank-lines": "^1.1.0"
+    "pug": "^2.0.3"
   }
 }

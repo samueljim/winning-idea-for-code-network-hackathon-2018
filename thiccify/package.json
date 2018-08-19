@@ -1,54 +1,17 @@
 {
-  "name": "uglify-js",
-  "license": "BSD-2-Clause",
-  "version": "3.4.7",
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "repository": "mishoo/UglifyJS2",
-  "main": "tools/node.js",
-  "bin": {
-    "uglifyjs": "bin/uglifyjs"
-  },
-  "files": [
-    "bin",
-    "lib",
-    "tools",
-    "LICENSE"
-  ],
-  "dependencies": {
-    "commander": "~2.17.1",
-    "source-map": "~0.6.1"
-  },
-  "devDependencies": {
-    "acorn": "~5.7.1",
-    "semver": "~5.5.0"
-  },
+  "name": "thiccify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "thicc.js",
   "scripts": {
-    "test": "node test/run-tests.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "cli",
-    "compress",
-    "compressor",
-    "ecma",
-    "ecmascript",
-    "es",
-    "es5",
-    "javascript",
-    "js",
-    "jsmin",
-    "min",
-    "minification",
-    "minifier",
-    "minify",
-    "optimize",
-    "optimizer",
-    "pack",
-    "packer",
-    "parse",
-    "parser",
-    "uglifier",
-    "uglify"
-  ]
+  "author": "Samuel Henry",
+  "license": "ISC",
+  "dependencies": {
+    "recast": "0.15.3",
+    "util": "^0.11.0",
+    "estree-walker": "^0.5.2",
+    "clone": "^2.1.2"
+  }
 }

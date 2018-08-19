@@ -1,8 +1,8 @@
 "use strict";
 const vscode = require('vscode');
 const thiccify = require('./thiccify');
-// const mincss = require('clean-css');
-// const minhtml = require('html-minifier');
+const mangel = require('./thiccify-old');
+
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -39,9 +39,12 @@ function activate(context) {
       // opts.fromString = true;
       try {
         console.log(chalk.green("Input", data));
-        let results = thiccify.minify(data);
-        console.log(chalk.red("Output", results.map));
-        console.log(chalk.red("Mapping", results.map));
+
+        let results = thiccify.run(data);
+
+        // let results = mangel.minify(data);
+        console.log(chalk.red("Output", results.code));
+        // console.log(chalk.red("Mapping", results.map));
 
         sendFileOut(outName, results.code, {
           length: data.length
@@ -52,7 +55,7 @@ function activate(context) {
     } else if (isCSS) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's css", 5000);
       try {
-        
+
         //Does all the css crap that nobody should every have to read.
         data = removeEmptyLines(data);
         data = data.replace(new RegExp('{', 'g'), '{\n');
@@ -60,10 +63,10 @@ function activate(context) {
         var obj = require('./cssNames.json');
         for (var property in obj) {
           if (obj.hasOwnProperty(property)) {
-              
-              var comment = "\n\t/*" + obj[property] + "*/\n\t" + property+":";
-              data = data.replace(new RegExp(" "+property+":", 'g'), comment);
-              
+
+            var comment = "\n\t/*" + obj[property] + "*/\n\t" + property + ":";
+            data = data.replace(new RegExp(" " + property + ":", 'g'), comment);
+
           }
         }
         let results = data;
@@ -72,8 +75,36 @@ function activate(context) {
         });
 
 
-        
-        
+        console.log(results);
+
+
+
+
+
+
+
+        /*while(b){
+          let re = new RegExp('\{([^}]+)\}');
+          let gayre = new RegExp('^[.#a-z0-9A-Z ]*');
+          let results = gayre.exec(data)[0] + re.exec(data)[0];
+          console.log(result);
+          data = data.replace(results, '');
+          attr.push(results);
+          
+          sendFileOut(outName, results, {
+            length: data.length
+          });
+          
+          if(data.length == 0){
+            b = false;
+          }
+          console.log("memes " + data );
+          }
+        */
+
+
+
+
       } catch (e) {
         vscode.window.setStatusBarMessage("Thiccify failed: " + e.message, 5000);
       }

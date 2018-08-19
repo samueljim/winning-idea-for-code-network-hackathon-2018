@@ -2,6 +2,7 @@ node_modules
 .vscode-test/
 *.vsix
 thicify/node_modules/
-thicify/npm-debug.log
-thicify/tmp/
+thicify-old/node_modules/
+thicify-old/npm-debug.log
+thicify-old/tmp/
 
