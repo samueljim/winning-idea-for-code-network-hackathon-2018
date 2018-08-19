@@ -222,7 +222,7 @@ function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, pare
                     const targetFunc = visibleFunctions.get(node.callee.name);
                     if (targetFunc) {
                         //const randomId = targetFunc.id.name + genRandomName();
-                        const randomId = gName.next().name;
+                        const randomId = gName.next().value;
                         const retName = randomId + "_return";
 
                         inlineCall(writeTarget, node, targetFunc, randomId, visibleFunctions);
