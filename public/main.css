@@ -8,10 +8,16 @@
 }
 
 .textarea{
-    min-height: 300px;
-    outline: 1px solid grey;
     display: inline-block;
     padding: 15px;
-    margin-top: 0px;
 }
 
+#output{
+    cursor: default;
+}
+
+
+
+textarea:disabled{
+    background-color: #F5F5F5 !important;
+}
