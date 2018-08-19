@@ -42,7 +42,7 @@ function activate(context) {
 
         let results = thiccify.run(data);
 
-        // let results = mangel.minify(data);
+        // let results1 = mangel.minify(results.code);
         console.log(chalk.red("Output", results.code));
         // console.log(chalk.red("Mapping", results.map));
 
@@ -138,14 +138,14 @@ function activate(context) {
       console.log(ob);
       for (var property in ob) {
         if (ob.hasOwnProperty(property)) {
-            console.log(prop);
-            var prop = property.slice(0, -1);
-            var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
-            //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
-            data = data.replace(new RegExp(prop+'>', 'g'), comment + '>');
-            data = data.replace(new RegExp(prop+' ', 'g'), comment + ' ');
-            
-        } 
+          console.log(prop);
+          var prop = property.slice(0, -1);
+          var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
+          //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
+          data = data.replace(new RegExp(prop + '>', 'g'), comment + '>');
+          data = data.replace(new RegExp(prop + ' ', 'g'), comment + ' ');
+
+        }
       }
       let results = data;
       sendFileOut(outName, results, {

@@ -24,8 +24,6 @@ function shortCircuit(a) {
 console.log(shortCircuit(20));
 `;
 
-
-
 const randomItems = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
 function genRandomName() {
@@ -222,6 +220,6 @@ module.exports = {
 
         // console.log(recast.print(ast).code);
 
-        return recast.print(ast).code;
+        return recast.print(ast);
     }
 };
