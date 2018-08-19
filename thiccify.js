@@ -34,6 +34,70 @@ function genRandomName() {
     return result;
 }
 
+
+function unrollBlock(block) {
+    walk(block, {
+        enter: function (node) {
+            if (node != block && node.type == "BlockStatement") {
+                unrollBlock(node);
+                this.skip();
+            }
+        }
+    });
+
+    for (let stmtIndex = 0; stmtIndex < block.body.length; stmtIndex++) {
+        function insertStatement(statement) {
+            block.body.splice(stmtIndex, 0, statement);
+            stmtIndex++;
+        }
+
+        const statement = block.body[stmtIndex];
+
+
+        if (statement.type == "ForStatement"
+            && statement.init.declarations.length == 1
+            && statement.init.declarations[0].init.type == "Literal"
+            && statement.test.type == "BinaryExpression"
+            && statement.test.left.type == "Identifier" && statement.test.left.name == statement.init.declarations[0].id.name
+            && statement.test.right.type == "Literal"
+            && statement.update.type == "UpdateExpression" && statement.update.operator == "++"
+            && statement.update.argument.type == "Identifier" && statement.update.argument.name == statement.init.declarations[0].id.name) {
+
+            const iterMin = statement.init.declarations[0].init.value;
+            const iterMax = statement.test.right.value;
+            const iterVar = statement.init.declarations[0].id;
+
+            block.body[stmtIndex] = {
+                type: "VariableDeclaration",
+                kind: "var",
+                declarations: [
+                    {
+                        type: "VariableDeclarator",
+                        id: iterVar,
+                    }
+                ]
+            };
+            stmtIndex++;
+
+            for (let iter = iterMin; iter < iterMax; iter++) {
+                insertStatement({
+                    type: "ExpressionStatement",
+                    expression: {
+                        type: "AssignmentExpression",
+                        operator: "=",
+                        left: iterVar,
+                        right: { type: "Literal", value: iter }
+                    }
+                });
+
+                for (const stmt of statement.body.body) {
+                    insertStatement(stmt);
+                }
+            }
+        }
+    }
+}
+
 function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, parentFunctions) {
     const visibleFunctions = new Map();
     for (const [name, declaration] of parentFunctions) {
@@ -159,6 +223,7 @@ function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, pare
     return hasReturn;
 }
 
+
 function inlineCall(statementsArr, callNode, targetDefinition, identifier, visibleFunctions) {
     const hasReturnedId = { type: "Identifier", name: identifier + "_hasReturned" };
     const returnId = { type: "Identifier", name: identifier + "_return" };
@@ -172,10 +237,22 @@ function inlineCall(statementsArr, callNode, targetDefinition, identifier, visib
                 id: hasReturnedId,
                 init: { type: "Literal", value: false }
             },
+        ]
+    });
+    statementsArr.push({
+        type: "VariableDeclaration",
+        kind: "var",
+        declarations: [
             {
                 type: "VariableDeclarator",
                 id: returnId
             },
+        ]
+    });
+    statementsArr.push({
+        type: "VariableDeclaration",
+        kind: "var",
+        declarations: [
             {
                 type: "VariableDeclarator",
                 id: { type: "Identifier", name: "arguments" },
@@ -211,6 +288,12 @@ function inlineCall(statementsArr, callNode, targetDefinition, identifier, visib
 }
 
 module.exports = {
+    unRoll: function (code) {
+        const ast = recast.parse(code);
+
+        unrollBlock(ast.program);
+        return recast.print(ast);
+    },
     run: function (code) {
         const ast = recast.parse(code);
 
