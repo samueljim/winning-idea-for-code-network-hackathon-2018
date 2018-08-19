@@ -1,10 +1,3 @@
-var textarea = document.querySelector("textarea");
-textarea.addEventListener('keydown', autosize);
-
-function autosize(){
-    
-}
-
 function sendData(){
     var data = $("#input").val();
 
