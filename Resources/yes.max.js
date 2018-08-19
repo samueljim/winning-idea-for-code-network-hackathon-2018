@@ -1,29 +1,33 @@
-var shortCircuitYRhhRaHycvjTwsgV_hasReturned = false, shortCircuitYRhhRaHycvjTwsgV_return, arguments = [20];
+var lightArtificialNeuralNetworks = false;
+var seriousRuleBasedMachine;
+var arguments = [20];
 var a = arguments[0];
 if (a > 5) {
-    var anotherShortCircuitQPfKczOJQmPsrObO_hasReturned = false, anotherShortCircuitQPfKczOJQmPsrObO_return, arguments = [a];
+    var babbleRaid = false;
+    var cyberData;
+    var arguments = [a];
     var a = arguments[0];
     if (a > 10) {
         console.log("yes");
-        anotherShortCircuitQPfKczOJQmPsrObO_return = "cool";
-        anotherShortCircuitQPfKczOJQmPsrObO_hasReturned = true;
+        cyberData = "cool";
+        babbleRaid = true;
     }
 
-    if (!anotherShortCircuitQPfKczOJQmPsrObO_hasReturned) {
+    if (!babbleRaid) {
         console.log("maybe");
-        anotherShortCircuitQPfKczOJQmPsrObO_return = "maybe";
-        anotherShortCircuitQPfKczOJQmPsrObO_hasReturned = true;
+        cyberData = "maybe";
+        babbleRaid = true;
     }
 
-    shortCircuitYRhhRaHycvjTwsgV_return = anotherShortCircuitQPfKczOJQmPsrObO_return;
-    shortCircuitYRhhRaHycvjTwsgV_hasReturned = true;
+    seriousRuleBasedMachine = babbleRaid;
+    lightArtificialNeuralNetworks = true;
 } else {
     console.log("no");
 }
 
-if (!shortCircuitYRhhRaHycvjTwsgV_hasReturned) {
-    shortCircuitYRhhRaHycvjTwsgV_return = "no";
-    shortCircuitYRhhRaHycvjTwsgV_hasReturned = true;
+if (!lightArtificialNeuralNetworks) {
+    seriousRuleBasedMachine = "no";
+    lightArtificialNeuralNetworks = true;
 }
 
-console.log(shortCircuitYRhhRaHycvjTwsgV_return);
+console.log(lightArtificialNeuralNetworks);

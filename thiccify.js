@@ -92,11 +92,11 @@ function* genMangledNames() {
 
     var cntr = 0;
     var mangledNames = [];
-    
+
     while (true) {
         var adjectiveIndex = Math.round(Math.random() * (adjectives.length - 1));
         var buzzwordIndex = Math.round(Math.random() * (buzzwords.length - 1));
-        
+
         var mangledName = [adjectives[adjectiveIndex]] + [buzzwords[buzzwordIndex]];
         if (mangledNames.includes(mangledName)) {
             mangledName += cntr;
@@ -104,7 +104,7 @@ function* genMangledNames() {
         } else {
             mangledNames.push(mangledName);
         }
-        
+
         yield mangledName;
     }
 }
@@ -222,13 +222,12 @@ function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, pare
                     const targetFunc = visibleFunctions.get(node.callee.name);
                     if (targetFunc) {
                         //const randomId = targetFunc.id.name + genRandomName();
-                        const randomId = gName.next().value;
-                        const retName = randomId + "_return";
+                        const returnName = gName.next().value;
 
-                        inlineCall(writeTarget, node, targetFunc, randomId, visibleFunctions);
+                        inlineCall(writeTarget, node, targetFunc, returnName, visibleFunctions);
 
                         node.type = "Identifier";
-                        node.name = retName;
+                        node.name = returnName;
                     }
                 }
             }
@@ -309,9 +308,9 @@ function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, pare
 }
 
 
-function inlineCall(statementsArr, callNode, targetDefinition, identifier, visibleFunctions) {
-    const hasReturnedId = { type: "Identifier", name: identifier + "_hasReturned" };
-    const returnId = { type: "Identifier", name: identifier + "_return" };
+function inlineCall(statementsArr, callNode, targetDefinition, returnName, visibleFunctions) {
+    const hasReturnedId = { type: "Identifier", name: returnName };
+    const returnId = { type: "Identifier", name: gName.next().value };
 
     statementsArr.push({
         type: "VariableDeclaration",

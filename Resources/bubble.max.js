@@ -1,5 +1,7 @@
 var a = [33, 103, 3, 726, 200, 984, 198, 764, 9];
-var bubbleSortrlxuTLHbYdORmno__hasReturned = false, bubbleSortrlxuTLHbYdORmno__return, arguments = [a];
+var blueSupportVectorMachine_hasReturned = false;
+var blueSupportVectorMachine_return;
+var arguments = [a];
 var a = arguments[0];
 var swapped;
 do {
@@ -70,5 +72,5 @@ do {
     }
 } while (swapped);
 
-bubbleSortrlxuTLHbYdORmno__return;
+blueSupportVectorMachine_return;
 console.log(a);
