@@ -29,6 +29,7 @@
     ]
   },
   "scripts": {
+    "vscode:prepublish": "npm install && npm run compile && npm prune --production",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "start": "node server.js",
     "now-start": "node server.js",
