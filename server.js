@@ -30,9 +30,18 @@ app.get("/", function (req, res) {
 
 app.post("/", function (req, res) {
     console.log(req.body);
-    console.log(chalk.red(req.body.code));
-    let results = thiccify.run(req.body.code);
-    return res.json(results);
+    let results;
+    if (req.body.codeType === 'css') {
+      
+        return res.json(results);
+    } else if (req.body.codeType === 'html') {
+        
+        return res.json(results);
+    } else {
+        results = thiccify.run(req.body.code);
+        results = thiccify.unRoll(results.code);
+        return res.json(results);
+    }
 });
 
 
