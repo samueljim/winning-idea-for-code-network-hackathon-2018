@@ -1,29 +1,29 @@
-var shortCircuitLNXJvocKYpamrfaZ_hasReturned = false, shortCircuitLNXJvocKYpamrfaZ_return, arguments = [20];
+var shortCircuitYRhhRaHycvjTwsgV_hasReturned = false, shortCircuitYRhhRaHycvjTwsgV_return, arguments = [20];
 var a = arguments[0];
 if (a > 5) {
-    var anotherShortCircuitgfQXUjMYIODckfWI_hasReturned = false, anotherShortCircuitgfQXUjMYIODckfWI_return, arguments = [a];
+    var anotherShortCircuitQPfKczOJQmPsrObO_hasReturned = false, anotherShortCircuitQPfKczOJQmPsrObO_return, arguments = [a];
     var a = arguments[0];
     if (a > 10) {
         console.log("yes");
-        anotherShortCircuitgfQXUjMYIODckfWI_return = "cool";
-        anotherShortCircuitgfQXUjMYIODckfWI_hasReturned = true;
+        anotherShortCircuitQPfKczOJQmPsrObO_return = "cool";
+        anotherShortCircuitQPfKczOJQmPsrObO_hasReturned = true;
     }
 
-    if (!anotherShortCircuitgfQXUjMYIODckfWI_hasReturned) {
+    if (!anotherShortCircuitQPfKczOJQmPsrObO_hasReturned) {
         console.log("maybe");
-        anotherShortCircuitgfQXUjMYIODckfWI_return = "maybe";
-        anotherShortCircuitgfQXUjMYIODckfWI_hasReturned = true;
+        anotherShortCircuitQPfKczOJQmPsrObO_return = "maybe";
+        anotherShortCircuitQPfKczOJQmPsrObO_hasReturned = true;
     }
 
-    shortCircuitLNXJvocKYpamrfaZ_return = anotherShortCircuitgfQXUjMYIODckfWI_return;
-    shortCircuitLNXJvocKYpamrfaZ_hasReturned = true;
+    shortCircuitYRhhRaHycvjTwsgV_return = anotherShortCircuitQPfKczOJQmPsrObO_return;
+    shortCircuitYRhhRaHycvjTwsgV_hasReturned = true;
 } else {
     console.log("no");
 }
 
-if (!shortCircuitLNXJvocKYpamrfaZ_hasReturned) {
-    shortCircuitLNXJvocKYpamrfaZ_return = "no";
-    shortCircuitLNXJvocKYpamrfaZ_hasReturned = true;
+if (!shortCircuitYRhhRaHycvjTwsgV_hasReturned) {
+    shortCircuitYRhhRaHycvjTwsgV_return = "no";
+    shortCircuitYRhhRaHycvjTwsgV_hasReturned = true;
 }
 
-console.log(shortCircuitLNXJvocKYpamrfaZ_return);
+console.log(shortCircuitYRhhRaHycvjTwsgV_return);

@@ -6,6 +6,8 @@ function anotherShortCircuit(a) {
     console.log("maybe");
     return "maybe";
 }
+// should shortCircuit
+// returns Circuit
 function shortCircuit(a) {
     if (a > 5) {
         return anotherShortCircuit(a);
