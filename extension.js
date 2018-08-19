@@ -44,7 +44,45 @@ function activate(context) {
 
         let results = thiccify.run(data);
         let unrolled = thiccify.unRoll(results.code);
-
+        //THIS IS JUST TO MAKE THE CODE INTENDTAION INVERTED
+        let canvas = "";
+        let sizes = [];
+        let largest = 0;
+        let ls = unrolled.code.split("\n");
+        console.log(ls);
+        for(var i = 0; i < ls.length; i++){
+          
+          let re = /^[\s]*/gm;
+          let spaces = re.exec(ls[i]);
+          
+          let size = Math.floor(spaces[0].length/4);
+          
+          ls[i] = ls[i].replace(spaces, '');
+          
+          sizes.push(size);
+        }
+        console.log("1");
+        let max = Math.max.apply(null ,sizes);
+        let newSize = []
+        for(var i = 0; i < ls.length; i++){
+          newSize.push(max - sizes[i]);
+        }
+        console.log("1");
+        for(var i = 0; i < ls.length; i++){
+          var sp = "";
+          for(var b = 0; b < newSize[i]; b++){
+            sp = sp + "    ";
+          }
+          ls[i] = sp + ls[i];
+        }
+        console.log("1");
+        let shished = "";
+        for(var i = 0; i < ls.length; i++){
+          shished = shished + ls[i] + "\n";
+        }
+        2
+        unrolled.code = shished;
+        //FINISHED INVERTING INDENTATION.
         console.log(chalk.red("Output", unrolled.code));
         // console.log(chalk.red("Mapping", results.map));
 
