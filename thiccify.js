@@ -26,6 +26,90 @@ console.log(shortCircuit(20));
 
 const randomItems = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 
+function* genMangledNames() {
+    var adjectives = [
+        "peterLaurie",
+        "elegant",
+        "micro",
+        "cyber",
+        "crystal",
+        "serious",
+        "blue",
+        "metal",
+        "unicorn",
+        "synergy",
+        "git",
+        "arrgh",
+        "rust",
+        "circuit",
+        "essential",
+        "bubble",
+        "novel",
+        "progressive",
+        "serverless",
+        "light",
+        "complex",
+        "stateless",
+        "hexa",
+        "quantum",
+        "augumented",
+        "babble",
+        "java",
+        "signal"
+    ];
+    var buzzwords = [
+        "BlockChain",
+        "Cloud",
+        "DeepLearning",
+        "DecisionTree",
+        "AssociationRule",
+        "ArtificialNeuralNetworks",
+        "Deep",
+        "InductiveLogicProgramming",
+        "SupportVectorMachine",
+        "Clustering",
+        "BayesianNetwork",
+        "Reinforcement",
+        "SimilarityAndMetric",
+        "SparseDictionary",
+        "GeneticAlgorithms",
+        "RuleBasedMachine",
+        "ClassifierSystem",
+        "FeatureSelectionApproach",
+        "ICO",
+        "RabbitHole",
+        "AbstractSyntaxTree",
+        "Tesla",
+        "Core",
+        "InternetOfThings",
+        "Architecture",
+        "Data",
+        "Analytics",
+        "VirtualReality",
+        "Dimension",
+        "Raid"
+    ];
+
+    var cntr = 0;
+    var mangledNames = [];
+    
+    while (true) {
+        var adjectiveIndex = Math.round(Math.random() * (adjectives.length - 1));
+        var buzzwordIndex = Math.round(Math.random() * (buzzwords.length - 1));
+        
+        var mangledName = [adjectives[adjectiveIndex]] + [buzzwords[buzzwordIndex]];
+        if (mangledNames.includes(mangledName)) {
+            mangledName += cntr;
+            cntr++;
+        } else {
+            mangledNames.push(mangledName);
+        }
+        
+        yield mangledName;
+    }
+}
+var gName = genMangledNames();
+
 function genRandomName() {
     let result = "";
     for (let i = 0; i < 16; i++) {
@@ -73,7 +157,8 @@ function inlineBlock(appendNodes, inputStatements, hasReturnedId, returnId, pare
                 if (node.type == "CallExpression") {
                     const targetFunc = visibleFunctions.get(node.callee.name);
                     if (targetFunc) {
-                        const randomId = targetFunc.id.name + genRandomName();
+                        //const randomId = targetFunc.id.name + genRandomName();
+                        const randomId = gName.next().name;
                         const retName = randomId + "_return";
 
                         inlineCall(writeTarget, node, targetFunc, randomId, visibleFunctions);
