@@ -33,25 +33,25 @@ app.get("/", function (req, res) {
 
 app.post("/", function (req, res, next) {
     var code = req.body.code;
-    console.log(code);
+    // console.log(code);
     var results = {};
     var run;
     if (req.body.codeType === 'css') {
         try {
-        //Does all the css crap that nobody should every have to read.
-        let data = removeEmptyLines(code);
-        data = data.replace(new RegExp('{', 'g'), '{\n');
-        data = data.replace(new RegExp('}', 'g'), '\n}\n');
-        for (var property in obj) {
-            if (obj.hasOwnProperty(property)) {
-            var comment = "\n\t/*" + obj[property] + "*/\n\t" + property + ":";
-            data = data.replace(new RegExp(" " + property + ":", 'g'), comment);
+            //Does all the css crap that nobody should every have to read.
+            let data = removeEmptyLines(code);
+            data = data.replace(new RegExp('{', 'g'), '{\n');
+            data = data.replace(new RegExp('}', 'g'), '\n}\n');
+            for (var property in obj) {
+                if (obj.hasOwnProperty(property)) {
+                    var comment = "\n\t/*" + obj[property] + "*/\n\t" + property + ":";
+                    data = data.replace(new RegExp(" " + property + ":", 'g'), comment);
+                }
             }
-        }
-        results.code = data;
-        results.msg = "Thiccified: " + (((results.code.length / code.length) * 10000) | 0) / 100 + "% of original size";
+            results.code = data;
+            results.msg = "Thiccified: " + (((results.code.length / code.length) * 10000) | 0) / 100 + "% of original size";
 
-        return res.status(200).json(results);
+            return res.status(200).json(results);
         } catch (error) {
             return res.status(500).json(error)
         }
@@ -61,20 +61,20 @@ app.post("/", function (req, res, next) {
             //let results = data;
             data = data.replace(/<!--[\S ]*-->/g, '');
             for (var property in ob) {
-              if (ob.hasOwnProperty(property)) {
-                console.log(prop);
-                var prop = property.slice(0, -1);
-                var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
-                //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
-                data = data.replace(new RegExp(prop + '>', 'g'), comment + '>');
-                data = data.replace(new RegExp(prop + ' ', 'g'), comment + ' ');
-      
-              }
+                if (ob.hasOwnProperty(property)) {
+                    // console.log(prop);
+                    var prop = property.slice(0, -1);
+                    var comment = "\n<!-- " + ob[property] + "-->\n" + prop;
+                    //data = data.replace(new RegExp(prop+'[> ]', 'g'), comment);
+                    data = data.replace(new RegExp(prop + '>', 'g'), comment + '>');
+                    data = data.replace(new RegExp(prop + ' ', 'g'), comment + ' ');
+
+                }
             }
             results.code = data;
             results.msg = "Thiccified: " + (((results.code.length / code.length) * 10000) | 0) / 100 + "% of original size";
 
-            return res.status(200).json(results); 
+            return res.status(200).json(results);
         } catch (error) {
             return res.status(500).json(error)
         }
@@ -83,11 +83,11 @@ app.post("/", function (req, res, next) {
             run = thiccify.run(code);
             // console.log(run);
             results = thiccify.unRoll(run.code);
-            
+
             results.msg = "Thiccified: " + (((results.code.length / code.length) * 10000) | 0) / 100 + "% of original size";
-           
-            
-            return res.status(200).json(results); 
+
+
+            return res.status(200).json(results);
 
         } catch (error) {
             return res.status(500).json(error)

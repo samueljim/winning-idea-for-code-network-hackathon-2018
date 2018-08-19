@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:400,500,700');
+#container{
+
+   
+	/*Sets the width of an element*/
+	width: 93%;
+   
+	/*Sets all the margin properties in one declaration*/
+	margin: 0 auto;
+   
+	/*Sets the top margin of an element*/
+	margin-top: 50px;
+
+}
+
+.textarea{
+
+   
+	/*Specifies how a certain HTML element should be displayed*/
+	display: inline-block;
+   
+	/*A shorthand property for all the padding-* properties*/
+	padding: 15px;
+   
+	/*Sets the minimum height of an element*/
+	min-height: 500px;
+
+}
+
+#output{
+
+   
+	/*Specifies the mouse cursor to be displayed when pointing over an element*/
+	cursor: default;
+
+}
+
+textarea:disabled{
+
+   
+	/*Specifies the background color of an element*/
+	background-color: #F5F5F5 !important;
+   
+	/*A shorthand property for the outline-width, outline-style, and the outline-color properties*/
+	outline: none !important;
+   
+	/*A shorthand property for border-width, border-style and border-color*/
+	border: none !important;
+
+}
+
+textarea{
+
+   
+	/*A shorthand property for border-width, border-style and border-color*/
+	border: solid #E3E3E3 1px !important;
+
+}
+
+textarea:focus{
+
+   
+	/*A shorthand property for border-width, border-style and border-color*/
+	border: solid #F96332 1px !important;
+
+}
+
