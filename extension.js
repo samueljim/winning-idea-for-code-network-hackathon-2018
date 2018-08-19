@@ -50,34 +50,34 @@ function activate(context) {
         let largest = 0;
         let ls = unrolled.code.split("\n");
         console.log(ls);
-        for(var i = 0; i < ls.length; i++){
-          
+        for (var i = 0; i < ls.length; i++) {
+
           let re = /^[\s]*/gm;
           let spaces = re.exec(ls[i]);
-          
-          let size = Math.floor(spaces[0].length/4);
-          
+
+          let size = Math.floor(spaces[0].length / 4);
+
           ls[i] = ls[i].replace(spaces, '');
-          
+
           sizes.push(size);
         }
         console.log("1");
-        let max = Math.max.apply(null ,sizes);
+        let max = Math.max.apply(null, sizes);
         let newSize = []
-        for(var i = 0; i < ls.length; i++){
+        for (var i = 0; i < ls.length; i++) {
           newSize.push(max - sizes[i]);
         }
         console.log("1");
-        for(var i = 0; i < ls.length; i++){
+        for (var i = 0; i < ls.length; i++) {
           var sp = "";
-          for(var b = 0; b < newSize[i]; b++){
+          for (var b = 0; b < newSize[i]; b++) {
             sp = sp + "    ";
           }
           ls[i] = sp + ls[i];
         }
         console.log("1");
         let shished = "";
-        for(var i = 0; i < ls.length; i++){
+        for (var i = 0; i < ls.length; i++) {
           shished = shished + ls[i] + "\n";
         }
         2
@@ -217,7 +217,8 @@ function activate(context) {
         // opts.fromString = false;
         try {
           // let results = files
-          let results = thiccify.minify(files);
+          let results = thiccify.run(data);
+          let unrolled = thiccify.unRoll(results.code);
           // let results = minjs.minify(files, opts);
           sendFileOut(outName, results.code, {
             files: files.length

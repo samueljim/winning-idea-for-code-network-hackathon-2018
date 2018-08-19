@@ -1,35 +1,25 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto:400,500,700');
-
-
 #container{
     width: 93%;
     margin: 0 auto;
     margin-top: 50px;
 }
-
 .textarea{
-    
     display: inline-block;
     padding: 15px;
     min-height: 500px;
 }
-
 #output{
     cursor: default;
 }
-
-
 
 textarea:disabled{
     background-color: #F5F5F5 !important;
     outline: none !important;
     border: none !important;
 }
-
 textarea{
     border: solid #E3E3E3 1px !important;
 }
-
 textarea:focus{
     border: solid #F96332 1px !important;
 }

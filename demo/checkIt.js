@@ -2,13 +2,13 @@ function someCode(aParam, bParam) {
     return aParam > bParam;
 }
 
-function chekIt() {
-    if (someCode(i, Math.random())) {
+function chekIt(j) {
+    if (someCode(j, 5 - j)) {
         return "yes";
     }
-    return i < 2;
+    return j < 2;
 }
 
-for (let i = 0; i < 5; i++) {
-    chekIt(i);
+for (var i = 0; i < 5; i++) {
+    console.log(chekIt(i));
 }

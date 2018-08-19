@@ -1,7 +1,9 @@
 # thiccfy README
 
-thiccfy makes your code wrose is so many ways
+thiccify makes your code worse is so many ways
 
 ## Features
 
+JS, CSS, HTML improvments 
 
+## 

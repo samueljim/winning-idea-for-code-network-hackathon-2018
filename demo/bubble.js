@@ -1,5 +1,5 @@
 var a = [33, 103, 3, 726, 200, 984, 198, 764, 9];
-// Commnet
+// comment
 function bubbleSort(a) {
     var swapped;
     do {
