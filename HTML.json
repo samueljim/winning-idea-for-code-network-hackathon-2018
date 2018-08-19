@@ -1,4 +1,5 @@
   {
+    "<!-->": "Is a comment that stupid people have to read because they are too stupid to read the code on the next line.",
     "<a>": "This is a hyperlink that will link your stupid page to another",
     "<abbr>": "Defines an abbreviation or an acronym",
     "<acronym>": "Defines an acronym",
@@ -115,6 +116,6 @@
     "<ul>": "Defines an unordered list",
     "<var>": "Defines a variable",
     "<video>": "Defines a video or movie",
-    "<wbr>": "Defines a possible line-break",
-    "<!-->": "Is a comment that stupid people have to read because they are too stupid to read the code on the next line."
+    "<wbr>": "Defines a possible line-break"
+    
   }

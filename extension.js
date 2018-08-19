@@ -6,6 +6,9 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const removeEmptyLines = require("remove-blank-lines");
+const ob = require('./HTML.json');
+
+
 
 
 //register on activation
@@ -131,8 +134,13 @@ function activate(context) {
       });
     } else if (isHTML) {
       vscode.window.setStatusBarMessage("Thiccify failed: That's html", 5000);
+      
 
-      var ob = require('./HTML.json');
+
+      //let results = data;
+      data = data.replace(/<!--[\S ]*-->/g, '');
+
+      
       console.log(ob);
       for (var property in ob) {
         if (ob.hasOwnProperty(property)) {
@@ -151,38 +159,6 @@ function activate(context) {
       });
 
       //Does all the HTML crap
-
-
-
-      // convert regex strings
-      // let results;
-      // if (typeof t === "object") {
-      //   if (t.root) {
-      //     t = t.root.slice();
-      //     settings.html.ThiccifyCSS.root = "";
-      //   } else t = false;
-      // } else t = false;
-      // try {
-      //   settings.html.ignoreCustomFragments = settings.html.ignoreCustomFragments || [];
-      //   ['customAttrAssign', 'customAttrSurround', 'customEventAttributes', 'ignoreCustomComments', 'ignoreCustomFragments']
-      //     .forEach(n => {
-      //       let e = settings.html[n];
-      //       if (Array.isArray(e)) {
-      //         settings.html[n] = e.map(ee => (typeof ee === 'string') ? new RegExp(ee.replace(/^\/(.*)\/$/, '$1')) : ee);
-      //       }
-      //     });
-      //   if (typeof settings.html.customAttrCollapse === 'string')
-      //     settings.html.customAttrCollapse = new RegExp(settings.html.customAttrCollapse.replace(/^\/(.*)\/$/, '$1'));
-      //   // results = minhtml.minify(data, settings.html);
-      //   results = data;
-      // } catch (e) {
-      //   return vscode.window.setStatusBarMessage("thiccify failed. (exception)", 5000);
-      // }
-      // if (t) settings.html.minifyCSS.root = t;
-      // if (results) sendFileOut(outName, results, {
-      //   length: data.length
-      // });
-      // else vscode.window.setStatusBarMessage("thiccify failed.", 5000);
     }
     //otherwise, we don't care ...
   };

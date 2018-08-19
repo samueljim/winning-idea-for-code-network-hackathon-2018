@@ -38,13 +38,6 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "dependencies": {
-    "@types/mocha": "^2.2.42",
-    "@types/node": "^8.10.25",
-    "bad-code": "0.0.1",
-    "eslint": "^4.11.0",
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.21",
-    "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "remove-blank-lines": "^1.1.0",
     "express": "^4.16.3",
