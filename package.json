@@ -3,13 +3,14 @@
   "displayName": "Thiccify",
   "description": "we make your code look more complicated",
   "version": "0.8.2",
+  "license": "MIT",
   "repository": "https://github.com/samueljim/winning-idea-for-code-network-hackathon-2018",
   "publisher": "thiccify",
   "engines": {
     "vscode": "^1.26.0"
   },
   "categories": [
-    "linter"
+    "Other"
   ],
   "activationEvents": [
     "onCommand:extension.thiccify",
