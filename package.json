@@ -29,7 +29,6 @@
     ]
   },
   "scripts": {
-    "preinstall": "cd ./thiccify && npm install && cd .. && cd ./thiccify-old && npm install && cd ..",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "start": "node server.js",
     "now-start": "node server.js",
@@ -50,6 +49,10 @@
     "morgan": "^1.9.0",
     "nodemon": "^1.18.3",
     "source-map": "^0.7.3",
+    "recast": "0.15.3",
+    "util": "^0.11.0",
+    "estree-walker": "^0.5.2",
+    "clone": "^2.1.2",
     "pug": "^2.0.3"
   }
 }

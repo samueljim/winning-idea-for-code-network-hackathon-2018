@@ -1,7 +1,6 @@
 "use strict";
 const vscode = require('vscode');
-const thiccify = require('./thiccify');
-const mangel = require('./thiccify-old');
+const thiccify = require('./thiccify.js');
 
 const fs = require('fs');
 const path = require('path');
@@ -42,7 +41,6 @@ function activate(context) {
 
         let results = thiccify.run(data);
 
-        // let results1 = mangel.minify(results.code);
         console.log(chalk.red("Output", results.code));
         // console.log(chalk.red("Mapping", results.map));
 
