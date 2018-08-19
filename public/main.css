@@ -15,23 +15,3 @@
     margin-top: 0px;
 }
 
-#output{
-    float: right;
-    margin-top: 0px;
-    width: 48%;
-}
-
-#input{
-    float: left;
-    width: 48%;
-    margin-right: 4%;
-}
-
-#text-container{
-    display: block;
-    margin-bottom: 15px;
-}
-
-button{
-    display: block;
-}
