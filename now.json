@@ -1,4 +1,16 @@
 {
-    "alias": "thiccify",
+    "version": 2,
+    "alias": ["thiccify.now.sh/"],
     "public": false
+    "github": {
+        "autoAlias": true
+    },
+    "builds": [
+        { "src": "public/**", "use": "@now/static" },
+        { "src": "views/**", "use": "@now/static" }
+    ],
+    "routes": [
+        { "src": "/", "dest": "/views/index.html" },
+        { "src": "/(.*)", "dest": "public/$1" }
+    ]
 }
